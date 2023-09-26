@@ -55,7 +55,7 @@ Ta cần tạo 2 task start và end là các DummyOperator để thể hiện ch
   - Tạo task để download file từ google driver
 - 5. Task: import_questions_mongo và import_answers_mongo
 
-  - Import các dữ liệu đó vào MongoD.
+  - Import các dữ liệu đó vào MongoDB.
 - 6. Task: spark_process
      - dùng spark để tính toán xem mỗi câu hỏi đang có bao nhiêu câu trả lời.
 - 7. Task: import_output_mongo
