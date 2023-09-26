@@ -35,4 +35,29 @@ File csv chứa các thông tin liên quan đến câu trả lời và có cấu
   - Score: Điểm số mà người trả lờinhận được từ câu trả lời này.
   
   - Body: Nội dung câu trả lời.
+### 4. Tiến hành
+- 1.  Task: start và end
 
+Ta cần tạo 2 task start và end là các DummyOperator để thể hiện cho việc bắt đầu và kết thúc của DAG.
+
+- 2. Task: branching
+
+  - Tạo 1 task để kiểm tra xem hai file Questions.csv và Answers.csv đã được tải xuống để sẵn sàng import hay chưa.
+  
+  - Nếu file chưa được tải xuống thì bắt đầu quá trình xử lý dữ liệu (Chuyển đến task clear_file).
+  - Nếu file đã được tải xuống thì sẽ kết thúc Pipleine (Chuyển đến task end).
+
+- 3. Task: clear_file
+
+  - Đây sẽ là Task đầu tiên trong quá trình xử lý dữ liệu, trước khi Download các file Questions.csv và Answers.csv thì bạn sẽ cần xóa các file đang tồn tại để tránh các lỗi liên quan đến việc ghi đè.
+
+- 4. Task: dowload_question_file_task và dowload_answer_file_task
+  - Tạo task để download file từ google driver
+- 5. Task: import_questions_mongo và import_answers_mongo
+
+  - Import các dữ liệu đó vào MongoD.
+- 6. Task: spark_process
+     - dùng spark để tính toán xem mỗi câu hỏi đang có bao nhiêu câu trả lời.
+- 7. Task: import_output_mongo
+
+  - Sau khi đã xử lý xong dữ liệu, ta sẽ lưu các kết quả vào MongoDB từ file .csv đã được export từ Spark.
