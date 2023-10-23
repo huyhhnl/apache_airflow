@@ -24,6 +24,7 @@ dfQ = dfQ.withColumn('OwnerUserId', when(col('OwnerUserId') == 'NA', None).other
 dfQ = dfQ.withColumn('OwnerUserId', col('OwnerUserId').cast(IntegerType()))\
     .withColumn('CreationDate', col('CreationDate').cast(DateType()))\
     .withColumn('ClosedDate', col('ClosedDate').cast(DateType()))
+dfQ.show()
 dfQ = dfQ.select('Id')
 
 # read answers
@@ -37,6 +38,7 @@ dfA = dfA.withColumn('OwnerUserId', when(col('OwnerUserId') == 'NA', None).other
     .drop('_id')
 dfA = dfA.withColumn('OwnerUserId', col('OwnerUserId').cast(IntegerType()))\
     .withColumn('CreationDate', col('CreationDate').cast(DateType()))
+dfA.show()
 dfA = dfA.select('ParentId')
 # join
 join_expr = dfQ.Id == dfA.ParentId
@@ -44,6 +46,7 @@ join_df = dfQ.join(dfA, join_expr, 'left_outer')\
              .groupBy('Id')\
              .agg(count('*').alias('Number of answers'))
 result_df = join_df.sort('Id')
+result_df.show()
 result_df = result_df.repartition(1)
 # write
 result_df.write\
